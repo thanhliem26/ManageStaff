@@ -1,5 +1,6 @@
 // const express = require('express');
-import express from 'express'
+import express from 'express';
+import { connection } from './config/connectDB'
 const morgan = require('morgan');
 const helmet = require('helmet');
 const compression = require('compression');
@@ -13,9 +14,8 @@ app.use(helmet()) //hidden framework using
 app.use(compression())
 
 //init db
-require('./dbs/init.mysql')
-// const { checkOverload } = require('./helpers/check.connect');
-// checkOverload();
+// require('./dbs/init.mysql')
+connection();
 
 //init route
 app.get('/', (req, res, next) => {
