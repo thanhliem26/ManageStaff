@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     phoneNumber: DataTypes.STRING(25),
     address: DataTypes.STRING,
     dateOfBirth: DataTypes.DATE,
+    sex: DataTypes.ENUM('1', '2', '3'),
     role_user:  DataTypes.ENUM('1', '2', '3'),
     work_id: DataTypes.INTEGER,
   }, {

@@ -30,6 +30,10 @@ module.exports = {
       dateOfBirth: {
         type: Sequelize.DATE
       },
+      dateOfBirth: {
+        type: Sequelize.ENUM('1', '2', '3'),
+        defaultValue: '1',
+      },
       role_user: {
         type: Sequelize.ENUM('1', '2', '3'),
         defaultValue: '2',
