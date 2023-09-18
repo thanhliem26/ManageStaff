@@ -30,7 +30,7 @@ module.exports = {
       dateOfBirth: {
         type: Sequelize.DATE
       },
-      dateOfBirth: {
+      sex: {
         type: Sequelize.ENUM('1', '2', '3'),
         defaultValue: '1',
       },
