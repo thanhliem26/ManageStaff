@@ -1,9 +1,9 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+import BaseModel from '../helpers/baseModel';
+
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class User extends BaseModel {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.belongsTo(models.Work, {foreignKey: 'work_id', as: 'work_data'});
       User.hasMany(models.Contract, {foreignKey: 'user_id', as: 'user_info'});
-      User.hasMany(models.Spending, {foreignKey: 'user_id', as: 'user_info'});
+      User.hasMany(models.Spending, {foreignKey: 'user_id', as: 'user_info_spending'});
     }
   }
   User.init({

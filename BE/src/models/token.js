@@ -1,9 +1,9 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+import BaseModel from '../helpers/baseModel';
+
 module.exports = (sequelize, DataTypes) => {
-  class Token extends Model {
+  class Token extends BaseModel {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.

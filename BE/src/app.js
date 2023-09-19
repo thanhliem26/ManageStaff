@@ -8,6 +8,10 @@ require('dotenv').config();
 
 const app = express();
 
+//encode data when use method post
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
+
 //init middleware
 app.use(morgan("dev"))
 app.use(helmet()) //hidden framework using
@@ -18,13 +22,23 @@ app.use(compression())
 connection();
 
 //init route
-app.get('/', (req, res, next) => {
-    const helloWorld = 'Hello word';
+app.use('/', require('./routers'))
 
-    return res.status(200).json({
-        message: 'Hello word',
-        metaData: helloWorld.repeat(100000)
-    })
+//handle errors
+app.use((req, res, next) => {
+    const error = new Error('Not Found')
+    error.status = 404
+    next(error)
+})
+
+app.use((error, req, res, next) => {
+   const statusCode = error.status || 500
+   
+   return res.status(statusCode).json({
+    status: 'error',
+    code: statusCode,
+    message: error.message || 'Internal Server Error'
+   })
 })
 //handle errors
 
