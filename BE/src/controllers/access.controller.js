@@ -18,11 +18,11 @@ class AccessController {
     //     }).send(res)
     // }
 
-    // login = async (req, res, next) => {
-    //     new SuccessResponse({
-    //         metadata: await AccessService.login(req.body),
-    //     }).send(res)
-    // }
+    login = async (req, res, next) => {
+        new SuccessResponse({
+            metadata: await AccessService.login(req.body),
+        }).send(res)
+    }
 
     signUp = async (req, res, next) => {
         new CREATED({

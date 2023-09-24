@@ -2,8 +2,8 @@
 // const shopModal = require('../models/shop.model');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-// const keyTokenService = require('./keyToken.service');
-// const { createTokenPair, verifyJWT } = require('../auth/authUtils');
+const tokenService = require('./token.service');
+const { createTokenPair, verifyJWT } = require('../auth/authUtils');
 const { getInfoData } = require('../utils');
 const { BadRequestError, ConflictRequestError, AuthFailureError, ForbiddenError } = require('../core/error.response');
 import db from '../models';
@@ -58,39 +58,39 @@ class AccessService {
     //     return delKey;
     // }
 
-    // static login = async ({ email, password, refreshToken = null}) => {
+    static login = async ({ email, password, refreshToken = null}) => {
 
-    //     //check exits email
-    //     const foundShop = await findByEmail({email});
-    //     if(!foundShop) throw new BadRequestError("Shop not registered")
+        //check exits email
+        const foundUser = await db.User.findOne({where: {email} ,raw: true})
+        if(!foundUser) throw new BadRequestError("User not registered")
 
-    //     //check match password
-    //     const match = bcrypt.compare(password, foundShop.password);
-    //     if(!match) throw new AuthFailureError('Authentication error')
-
-
-    //     //create privateKey, public key
-    //     const privateKey = crypto.randomBytes(64).toString('hex')
-    //     const publicKey = crypto.randomBytes(64).toString('hex')
+        // //check match password
+        const match = await bcrypt.compare(password, foundUser.password);
+        if(!match) throw new AuthFailureError('Authentication error')
 
 
-    //     // genarate tokens
-    //     const tokens = await createTokenPair({ userId: foundShop._id, email }, publicKey, privateKey);
+        // //create privateKey, public key
+        const privateKey = crypto.randomBytes(64).toString('hex')
+        const publicKey = crypto.randomBytes(64).toString('hex')
 
-    //     await keyTokenService.createKeyToken({
-    //         userId: foundShop._id,
-    //         publicKey,
-    //         privateKey,
-    //         refreshToken: tokens.refreshToken,
-    //     })
 
-    //     return {
-    //         metadata: {
-    //             shop: getInfoData({field: ['_id', 'name', 'email'], object: foundShop}),
-    //             tokens,
-    //         }
-    //     }
-    // }
+        // // generator tokens
+        const tokens = await createTokenPair({ user_id: foundUser.id, email }, publicKey, privateKey);
+
+        await tokenService.createKeyToken({
+            userId: foundUser.id,
+            publicKey,
+            privateKey,
+            refreshToken: tokens.refreshToken,
+        })
+
+        return {
+            metadata: {
+                shop: getInfoData({field: ['_id', 'name', 'email'], object: foundUser}),
+                tokens,
+            }
+        }
+    }
 
     static signUp = async (data) => {
             const { email, password } = data;

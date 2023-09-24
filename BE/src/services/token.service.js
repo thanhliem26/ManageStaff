@@ -7,16 +7,13 @@ class keyTokenService {
 
     static createKeyToken = async ({userId, publicKey, privateKey, refreshToken}) => {
         try {
-            const filter = { user_id: userId, refreshToken: refreshToken};
-            const update = {publicKey, privateKey, refreshTokenUsed: [], refreshToken};
-            const options = { upsert: true, new: true }
+            const filter = { user_id: userId};
+            const update = { publickey: publicKey, privateKey: privateKey, refreshTokenUsed: JSON.stringify([]), refreshToken: refreshToken};
+            const options = { upsert: true }
 
-            // const tokens = await db.Token.findOneAndUpdate(filter);
-            console.log("🚀 ~ tokens:", tokens)
-
-            // const tokens = await KeyTokenMoel.findOneAndUpdate(filter, update, options)
-
-            // return tokens ? tokens.publicKey : null;
+            const tokens = await db.Token.findOneAndUpdate(filter, update, options);
+ 
+            return tokens ? tokens.publicKey : null;
         } catch(error) {
             return error;
         }
