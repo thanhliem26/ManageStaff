@@ -36,7 +36,7 @@ module.exports = {
       },
       role_user: {
         type: Sequelize.ENUM('1', '2', '3'),
-        defaultValue: '2',
+        defaultValue: '3',
       },
       work_id: {
         type: Sequelize.INTEGER
