@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Token.init({
     user_id: DataTypes.INTEGER,
-    publickey: DataTypes.STRING,
+    publicKey: DataTypes.STRING,
     privateKey: DataTypes.STRING,
     refreshTokenUsed: DataTypes.JSON,
     refreshToken: DataTypes.STRING,

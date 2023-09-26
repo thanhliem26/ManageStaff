@@ -1,6 +1,6 @@
 'use strict'
 
-// const KeyTokenMoel= require('../models/keytoken.model');
+const { Op } = require("sequelize");
 import db from '../models';
 
 class keyTokenService {
@@ -8,7 +8,7 @@ class keyTokenService {
     static createKeyToken = async ({userId, publicKey, privateKey, refreshToken}) => {
         try {
             const filter = { user_id: userId};
-            const update = { publickey: publicKey, privateKey: privateKey, refreshTokenUsed: JSON.stringify([]), refreshToken: refreshToken};
+            const update = { publicKey: publicKey, privateKey: privateKey, refreshTokenUsed: JSON.stringify([]), refreshToken: refreshToken};
             const options = { upsert: true }
 
             const tokens = await db.Token.findOneAndUpdate(filter, update, options);
@@ -19,26 +19,30 @@ class keyTokenService {
         }
     }
 
-    // static findByUserId = async (userId) => {
-    //     const key = await KeyTokenMoel.findOne({user: new Types.ObjectId(userId)}).lean()
-    //     return key;
-    // }
+    static findByUserId = async (user_id) => {
+        const key = await db.Token.findOne({where: {user_id}, raw: true});
+        return key;
+    }
 
-    // static removeKeyById = async (id) => {
-    //     return await KeyTokenMoel.deleteOne(id);
-    // }
+    static removeKeyById = async (id) => {
+        return await db.Token.destroy({
+            where: {id}
+        })
+    }
 
-    // static findByRefreshTokenUsed =  async (refreshToken) => {
-    //     return await KeyTokenMoel.findOne({refreshTokenUsed: refreshToken}).lean()
-    // }
+    static findByRefreshTokenUsed =  async (refreshToken) => {
+        return await db.Token.findOne({where: {refreshTokenUsed: {[Op.like]: `%${refreshToken}%`} }, raw: true})
+    }
 
-    // static deleteKeyById = async ( userId ) => {
-    //     return await KeyTokenMoel.deleteOne({user: new Types.ObjectId(userId)})
-    // }
+    static deleteKeyById = async ( user_id ) => {
+        return await db.Token.destroy({
+            where: {user_id }
+        })
+    }
 
-    // static findByRefreshTokenByUser = async (refreshToken) => {
-    //     return await KeyTokenMoel.findOne({refreshToken: refreshToken})
-    // }
+    static findByRefreshTokenByUser = async (refreshToken) => {
+        return await db.Token.findOne({where: {refreshToken: refreshToken}})
+    }
 }
 
 module.exports = keyTokenService;

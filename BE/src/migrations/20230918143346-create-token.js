@@ -14,7 +14,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      publickey: {
+      publicKey: {
         type: Sequelize.STRING
       },
       privateKey: {
