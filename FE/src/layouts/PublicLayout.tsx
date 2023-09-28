@@ -1,9 +1,45 @@
-import React from 'react'
+import { useEffect } from "react";
+
+import type { RootState, AppDispatch } from "@/store/index";
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, increment } from "@/store/counter/index";
+import authApi from './../api/auth';
 
 const PublicLayout = () => {
-  return (
-    <div>PublicLayout</div>
-  )
-}
+  const count = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useDispatch<AppDispatch>();
 
-export default PublicLayout
+  const ConnectionBE = async () => {
+    const data = await authApi.helloWorld()
+    console.log("🚀 ~ data:", data)
+  }
+
+  useEffect(() => {
+    ConnectionBE()
+  }, [])
+
+  return (
+    <div>
+      PublicLayout
+      <div>
+        <div>
+          <button
+            aria-label="Increment value"
+            onClick={() => dispatch(increment())}
+          >
+            Increment
+          </button>
+          <span>{count}</span>
+          <button
+            aria-label="Decrement value"
+            onClick={() => dispatch(decrement())}
+          >
+            Decrement
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PublicLayout;

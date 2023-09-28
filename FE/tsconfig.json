@@ -21,6 +21,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    //* rule add*/
+    "noImplicitAny": false,
     /** alias*/
     "baseUrl": "./src",
     "paths": {
@@ -31,9 +33,11 @@
       "@/api/*": ["./api/*"],
       "@/features/*": ["./features/*"],
       "@/utils/*": ["./utils/*"],
-      "@/constants/*": ["./constants/*"]
+      "@/constants/*": ["./constants/*"],
+      "@/routers/*": ["./routers/*"]
     }
   },
   "include": ["src"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
