@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosResponse} from "axios";
+import axios, {AxiosError, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 // import { getToken, removeToken, removeUser } from "../utils";
 
 // Set up default config for http requests here
@@ -11,7 +11,7 @@ const axiosService = axios.create({
 	},
 });
 
-axiosService.interceptors.request.use(async (config) => {
+axiosService.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
 	// const accessToken = getToken();
 
 	// if (accessToken) {
@@ -19,7 +19,7 @@ axiosService.interceptors.request.use(async (config) => {
 	// }
 
 	return config;
-}, function (error) {
+}, function (error: AxiosError) {
 	// Do something with request error
 	return Promise.reject(error);
 })

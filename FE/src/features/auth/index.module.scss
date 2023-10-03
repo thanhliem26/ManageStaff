@@ -1,0 +1,35 @@
+.login__page {
+  width: 100%;
+  padding: 150px 0;
+
+  :global {
+    .login__page-wrapper {
+
+        .container {
+            width: 900px;
+            background: #fff;
+            margin: 0 auto;
+            max-width: 1200px;
+      
+            .singUp__content {
+              padding: 75px 0;
+
+              .singUp__content-form {
+                margin-left: 75px;
+                margin-right: 75px;
+                padding-left: 34px;
+                
+                .form__title {
+                  margin-bottom: 33px;
+                }
+              }
+
+              .singUp__content-image {
+
+              }
+            }
+          }
+    }
+    
+  }
+}

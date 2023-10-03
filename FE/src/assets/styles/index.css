@@ -9,8 +9,17 @@
   -webkit-text-size-adjust: 100%;
 }
 
+@font-face {
+  font-family: 'Poppins';
+  src: local('Poppins'),
+       url('../font/Poppins/Poppins-Bold.ttf'),
+       url('../font/Poppins/Poppins-Regular.ttf');
+}
+
 .root_component {
   width: 100%;
+  min-height: 100vh;
+  background: #f8f8f8;
 }
 
 /* reset css */
@@ -26,6 +35,19 @@
   padding: 0;
 }
 
+h2 {
+  line-height: 1.66;
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+  color: #222;
+  font-family: Poppins;
+  font-size: 36px;
+}
+
+.text__error {
+  color: #ff4d4f;
+}
 /**
     * 1. Correct the line height in all browsers.
     * 2. Prevent adjustments of font size after orientation changes in iOS.
