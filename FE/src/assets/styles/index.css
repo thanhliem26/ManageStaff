@@ -1,5 +1,15 @@
+@font-face {
+  font-family: "Poppins";
+  src: local("Poppins"), url("../font/Poppins/Poppins-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Poppins_bold";
+  src: local("Poppins"), url("../font/Poppins/Poppins-Bold.ttf");
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Poppins, Poppins_bold, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -7,13 +17,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-
-@font-face {
-  font-family: 'Poppins';
-  src: local('Poppins'),
-       url('../font/Poppins/Poppins-Bold.ttf'),
-       url('../font/Poppins/Poppins-Regular.ttf');
 }
 
 .root_component {

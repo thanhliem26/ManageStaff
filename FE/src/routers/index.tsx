@@ -1,7 +1,8 @@
 import PublicLayout from '@/layouts/PublicLayout';
 import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom'
 // import { isUserLoggedIn } from './utils';
-import LoginPage from '@/features/auth/Login';
+import SingInPage from '@/features/auth/singIn';
+import SingUpPage from '@/features/auth/singUp';
 // import AdminLayout from './layouts/AdminLayout';
 import NotFound from '@/features/misc/NotFound';
 // import Admin from './features/admin';
@@ -20,8 +21,12 @@ function RouterComponent() {
       children: [
         {
           index: true,
-          element: <LoginPage />
-        }
+          element: <SingInPage />
+        },
+        {
+          path: "sing-up",
+          element: <SingUpPage />,
+        },
       ]
     },
     // {
