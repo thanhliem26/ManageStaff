@@ -8,7 +8,6 @@
         width: 900px;
         background: #fff;
         margin: 0 auto;
-        max-width: 1200px;
         border-radius: 20px;
 
         .singUp__content {
@@ -255,6 +254,67 @@
               cursor: pointer;
             }
           }
+        }
+      }
+    }
+
+    @media screen and (min-width: 1024px) {
+      .container {
+        max-width: 1200px;
+      }
+    }
+
+    @media screen and (max-width: 1200px) {
+      .container {
+        width: calc(100% - 30px) !important;
+        max-width: 100%;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .singUp__content,
+      .singIn__content {
+        flex-direction: column;
+        -moz-flex-direction: column;
+        -webkit-flex-direction: column;
+        -o-flex-direction: column;
+        -ms-flex-direction: column;
+        justify-content: center;
+        -moz-justify-content: center;
+        -webkit-justify-content: center;
+        -o-justify-content: center;
+        -ms-justify-content: center;
+
+        .singUp__content-form {
+          width: auto !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          padding-left: 0 !important;
+          padding: 0 30px !important;
+        }
+
+        .singUp__content-image {
+          width: auto !important;
+        }
+
+        .singIn__content-form {
+          width: auto !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          padding-left: 0 !important;
+          padding: 0 30px !important;
+        }
+
+        .singIn__content-image {
+          width: auto !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          margin-top: 50px !important;
+          order: 2;
+          -moz-order: 2;
+          -webkit-order: 2;
+          -o-order: 2;
+          -ms-order: 2;
         }
       }
     }
