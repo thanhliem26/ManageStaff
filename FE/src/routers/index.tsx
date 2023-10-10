@@ -1,9 +1,9 @@
 import PublicLayout from '@/layouts/PublicLayout';
 import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom'
-// import { isUserLoggedIn } from './utils';
+import { isUserLoggedIn } from '@/utils/index';
 import SingInPage from '@/features/auth/singIn';
 import SingUpPage from '@/features/auth/singUp';
-// import AdminLayout from './layouts/AdminLayout';
+import AdminLayout from '@/layouts/AdminLayout';
 import NotFound from '@/features/misc/NotFound';
 // import Admin from './features/admin';
 // import Shops from './features/shops';
@@ -11,10 +11,10 @@ import NotFound from '@/features/misc/NotFound';
 
 function RouterComponent() {
   const router = createBrowserRouter([
-    // {
-    //   path: "/",
-    //   element: !isUserLoggedIn() ? <Navigate to='/login' /> : <Navigate to='/admin' />,
-    // },
+    {
+      path: "/",
+      element: !isUserLoggedIn() ? <Navigate to='/login' /> : <Navigate to='/admin' />,
+    },
     {
       path: "/login",
       element: <PublicLayout />,
@@ -29,24 +29,24 @@ function RouterComponent() {
         },
       ]
     },
-    // {
-    //   path: "/admin",
-    //   element: <AdminLayout />,
-    //   children: [
-    //     {
-    //       index: true,
-    //       element: <Admin />
-    //     },
-    //     {
-    //       path: "users",
-    //       element: <Users />
-    //     },
-    //     {
-    //       path: "shops",
-    //       element: <Shops />
-    //     },
-    //   ]
-    // },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      // children: [
+      //   {
+      //     index: true,
+      //     element: <Admin />
+      //   },
+      //   {
+      //     path: "users",
+      //     element: <Users />
+      //   },
+      //   {
+      //     path: "shops",
+      //     element: <Shops />
+      //   },
+      // ]
+    },
     {
       path: "*",
       element: <NotFound />

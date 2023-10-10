@@ -1,4 +1,3 @@
-import React from "react";
 import FormRegister from "./formRegister";
 import ImageRegister from "./imageRegister";
 import styled from "../index.module.scss";

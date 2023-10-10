@@ -1,6 +1,7 @@
-'use strict';
+"use strict";
 
-import BaseModel from '../helpers/baseModel';
+import BaseModel from "../helpers/baseModel";
+import Joi from "joi";
 
 module.exports = (sequelize, DataTypes) => {
   class User extends BaseModel {
@@ -11,25 +12,57 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsTo(models.Work, {foreignKey: 'work_id', as: 'work_data'});
-      User.hasMany(models.Contract, {foreignKey: 'user_id', as: 'user_info'});
-      User.hasMany(models.Spending, {foreignKey: 'user_id', as: 'user_info_spending'});
+      User.belongsTo(models.Work, { foreignKey: "work_id", as: "work_data" });
+      User.hasMany(models.Contract, { foreignKey: "user_id", as: "user_info" });
+      User.hasMany(models.Spending, {
+        foreignKey: "user_id",
+        as: "user_info_spending",
+      });
     }
+
+    validateCreateUser = async () => {
+      const schema = Joi.object({
+        fullName: Joi.string().required(),
+        password: Joi.string()
+          .pattern(new RegExp("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\",.<>?]{3,30}$"))
+          .required(),
+        email: Joi.string()
+          .email({
+            minDomainSegments: 2,
+            tlds: { allow: ["com", "net"] },
+          })
+          .required(),
+      })
+        .unknown(true)
+
+      try {
+        const value = await schema.validateAsync({ ...this.dataValues });
+        if(value) return {status: true};
+      } catch (error) {
+        return {
+          status: false,
+          message: error.details?.[0]?.message,
+        };
+      }
+    };
   }
-  User.init({
-    fullName: DataTypes.STRING,
-    password: DataTypes.STRING,
-    email: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING(25),
-    address: DataTypes.STRING,
-    dateOfBirth: DataTypes.DATE,
-    sex: DataTypes.ENUM('1', '2', '3'),
-    role_user:  DataTypes.ENUM('1', '2', '3'),
-    work_id: DataTypes.INTEGER,
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  User.init(
+    {
+      fullName: DataTypes.STRING,
+      password: DataTypes.STRING,
+      email: DataTypes.STRING,
+      phoneNumber: DataTypes.STRING(25),
+      address: DataTypes.STRING,
+      dateOfBirth: DataTypes.DATE,
+      sex: DataTypes.ENUM("1", "2", "3"),
+      role_user: DataTypes.ENUM("1", "2", "3"),
+      work_id: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };
 

@@ -1,60 +1,24 @@
-import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Checkbox, Form, Input } from "antd";
-import * as yup from "yup";
-import InputComponent from "@/components/inputComponent";
+import { Form } from "antd";
+import InputComponent from "@/components/form/inputComponent";
 import ButtonComponent from "@/components/buttonComponent";
 import {
   LockOutlined,
   UserOutlined,
   AliwangwangOutlined,
 } from "@ant-design/icons";
+import { schema, FormData } from "./constant";
+import authApi from "@/api/auth";
+import Notification from "@/components/notificationSend";
+import { useNavigate } from "react-router-dom";
 
 const FormRegister = () => {
-  const schema = yup
-    .object({
-      firstName: yup.string().required("username is required"),
-      email: yup
-        .string()
-        .email("email is not valid!")
-        .required("email is required"),
-      password: yup
-        .string()
-        .min(8, "Minimum password needs 8 characters ")
-        .test(
-          "contains-number-and-character",
-          "Password must contain both numbers and characters",
-          (value) => {
-            if (!value) return false; // Return false if the value is empty
-
-            const regex = /^(?=.*[0-9])(?=.*[a-zA-Z])/;
-            const containsCharacterAndNumber = regex.test(value);
-
-            return containsCharacterAndNumber;
-          }
-        )
-        .required("Password is required"),
-      re_password: yup
-        .string()
-        .test(
-          "repeat-password",
-          "Repeat Password must match password",
-          (value, schema: any) => {
-            const { password } = schema["from"][0]["value"];
-            if (!value) return false; // Return false if the value is empty
-
-            return value === password;
-          }
-        )
-        .required("Password is required"),
-    })
-    .required();
-
-  type FormData = yup.InferType<typeof schema>;
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors },
@@ -63,27 +27,54 @@ const FormRegister = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log("data", data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      setLoading(true);
+
+      const result = await authApi.singUp(data);
+      if (result?.["status"].toString() === "error") {
+        Notification({
+          type: "error",
+          message: "Notification Error",
+          description: result?.["message"],
+        });
+        return;
+      }
+
+      Notification({
+        message: "Notification Success",
+        description: "Create new user success",
+      });
+
+      navigate("/login");
+    } catch (error: unknown) {
+      if (error?.["response"]?.["data"]?.["status"] === "error") {
+        Notification({
+          type: "error",
+          message: "Notification Error",
+          description: error?.["response"]?.["data"]?.["message"],
+        });
+      }
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
     <div className="singUp__content-form">
       <h2 className="form__title">Sign up</h2>
       <Form
         name="basic"
-        // labelCol={{ span: 8 }}
-        // wrapperCol={{ span: 16 }}
-        // style={{ maxWidth: 600 }}
-        // initialValues={{ remember: true }}
         onFinish={handleSubmit(onSubmit)}
         onFinishFailed={onFinishFailed}
         // autoComplete="off"
       >
         <InputComponent
-          name="firstName"
+          name="fullName"
           control={control}
           errors={errors}
           placeholder="Your name"
@@ -104,6 +95,7 @@ const FormRegister = () => {
           errors={errors}
           placeholder="Your password"
           className="remove__border"
+          type="password"
           icon={<LockOutlined />}
         />
         <InputComponent
@@ -112,6 +104,7 @@ const FormRegister = () => {
           errors={errors}
           placeholder="Repeat your password"
           className="remove__border"
+          type="password"
           icon={<LockOutlined />}
         />
         <ButtonComponent
@@ -119,6 +112,7 @@ const FormRegister = () => {
           htmlType="submit"
           label="Register"
           className="btn__submit"
+          loading={loading}
         />
       </Form>
     </div>

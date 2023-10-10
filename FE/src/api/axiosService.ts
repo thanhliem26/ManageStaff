@@ -32,39 +32,38 @@ axiosService.interceptors.response.use(
 		return response;
 	},
 	(error: AxiosError) => {
-		// switch (error.response.status) {
-		// 	case 401:
-		// 		removeHeader("Authorization");
-		// 		removeToken()
-		// 		removeUser()
-		// 		window.location.href = "/login";
+		switch (error?.['response']?.['status']) {
+			// case 401:
+			// 	removeHeader("Authorization");
+			// 	removeToken()
+			// 	removeUser()
+			// 	window.location.href = "/login";
 
-		// 		break;
-		// 	case 500:
-		// 		if (error.response.data.message === 'jwt expired') {
-		// 			removeHeader("Authorization");
-		// 			removeToken()
-		// 			removeUser()
-		// 			window.location.href = "/login";
-		// 		}
-		// 		break;
-		// 	default:
-		// 		return Promise.reject(error);
-		// }
-		return Promise.reject(error);
+			// 	break;
+			case 500:
+				// if (error.response.data.message === 'jwt expired') {
+				// 	removeHeader("Authorization");
+				// 	removeToken()
+				// 	removeUser()
+				// 	window.location.href = "/login";
+				// }
+				return error?.['response']?.['data'];
+			default:
+				return Promise.reject(error);
+		}
 	}
 );
 
-// const setHeader = (name, value) => {
-// 	axiosService.defaults.headers.common[name] = value;
-// };
+const setHeader = (name, value) => {
+	axiosService.defaults.headers.common[name] = value;
+};
 
-// const removeHeader = (name) => {
-// 	delete axiosService.defaults.headers.common[name];
-// };
+const removeHeader = (name) => {
+	delete axiosService.defaults.headers.common[name];
+};
 
 export {
 	axiosService,
-	// setHeader, 
-	// removeHeader 
+	setHeader, 
+	removeHeader 
 };

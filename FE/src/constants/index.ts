@@ -1,5 +1,6 @@
-// export const STAFF_MANAGE_USER = 'STAFF_MANAGE_USER'
-// export const STAFF_MANAGE_TOKEN = 'STAFF_MANAGE_TOKEN'
+export const STAFF_MANAGE_USER: string = 'STAFF_MANAGE_USER';
+export const STAFF_REFRESH_MANAGE_USER: string = 'refreshToken';
+export const STAFF_MANAGE_TOKEN: string = 'token';
 // export const ROlE = {
 //     1: 'Admin',
 //     2: 'Quản lý tổng',

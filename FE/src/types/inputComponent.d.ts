@@ -6,4 +6,5 @@ interface typeInputComponent {
     placeholder?: string,
     className?: string,
     icon?: React.ReactNode,
+    type?: string,
 }
