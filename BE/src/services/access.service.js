@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const tokenService = require("./token.service");
 const { createTokenPair, verifyJWT } = require("../auth/authUtils");
-const { getInfoData } = require("../utils");
 const {
   BadRequestError,
   ConflictRequestError,
@@ -14,6 +13,8 @@ const {
 import { findById } from "./user.service";
 import db from "../models";
 import { validateUser, createNewUser } from "../models/repository/user.repo";
+import { menu } from "../constants";
+import { getInfoData } from "../utils";
 
 const RoleShop = {
   SHOP: "SHOP",
@@ -23,6 +24,16 @@ const RoleShop = {
 };
 
 class AccessService {
+  static handleGetMenu = async (roleUser) => {
+    return menu.reduce((current, next) => {
+      if(next.role.includes(Number(roleUser))) {
+        current.push( getInfoData({field: ["id", "href", "icon", "label"], object: next}))
+      }
+
+      return current;
+    }, [])
+  };
+
   static handleRefreshToken = async (refreshToken) => {
     const foundToken = await tokenService.findByRefreshTokenUsed(refreshToken);
 
@@ -50,7 +61,7 @@ class AccessService {
     if (!foundUser) throw new AuthFailureError("Shop not registered");
 
     const tokens = await createTokenPair(
-      { user_id: foundUser.id, email },
+      { user_id: foundUser.id, email, role_user: foundUser.role_user },
       holderToken.publicKey,
       holderToken.privateKey
     );
@@ -87,7 +98,7 @@ class AccessService {
 
     // // generator tokens
     const tokens = await createTokenPair(
-      { user_id: foundUser.id, email },
+      { user_id: foundUser.id, email, role_user: foundUser.role_user },
       publicKey,
       privateKey
     );

@@ -22,6 +22,7 @@ export default defineConfig(({command, mode}) => {
         "@/layouts": path.resolve(__dirname, "./src/layouts"),
         "@/utils": path.resolve(__dirname, "./src/utils"),
         "@/routers": path.resolve(__dirname, "./src/routers"),
+        "@/hoc": path.resolve(__dirname, "./src/hoc"),
       },
     },
     server: {

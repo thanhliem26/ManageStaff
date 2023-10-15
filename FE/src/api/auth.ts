@@ -13,6 +13,10 @@ const authApi = {
         const url = '/v1/api/user/login';
         return axiosService.post(url, body);
     },
+    menu(): Promise<typeMenu> {
+        const url = '/v1/api/user/menu';
+        return axiosService.get(url);
+    },
 }
 
 export default authApi;

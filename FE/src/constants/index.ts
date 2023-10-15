@@ -1,6 +1,20 @@
+import {
+    AppstoreOutlined,
+    ContainerOutlined,
+    DesktopOutlined,
+    PieChartOutlined,
+  } from "@ant-design/icons";
+
 export const STAFF_MANAGE_USER: string = 'STAFF_MANAGE_USER';
 export const STAFF_REFRESH_MANAGE_USER: string = 'refreshToken';
 export const STAFF_MANAGE_TOKEN: string = 'token';
+
+export const iconMenu = {
+    sale_contract_management: PieChartOutlined,
+    expense: DesktopOutlined,
+    progress: ContainerOutlined,
+    manage_service_contract: AppstoreOutlined,
+}
 // export const ROlE = {
 //     1: 'Admin',
 //     2: 'Quản lý tổng',

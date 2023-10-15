@@ -34,7 +34,8 @@
       "@/features/*": ["./features/*"],
       "@/utils/*": ["./utils/*"],
       "@/constants/*": ["./constants/*"],
-      "@/routers/*": ["./routers/*"]
+      "@/routers/*": ["./routers/*"],
+      "@/hoc/*": ["./hoc/*"]
     }
   },
   "include": ["src"],

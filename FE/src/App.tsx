@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import "@/assets/styles/index.css";
 
 function App() {
+
   return (
     <div className="root_component">
       <Provider store={store}>

@@ -43,6 +43,10 @@ class keyTokenService {
     static findByRefreshTokenByUser = async (refreshToken) => {
         return await db.Token.findOne({where: {refreshToken: refreshToken}})
     }
+
+    static findToken = async (token) => {
+        return await db.Token.findOne({where: {token: token}})
+    }
 }
 
 module.exports = keyTokenService;

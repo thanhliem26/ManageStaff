@@ -4,6 +4,13 @@ const AccessService = require("../services/access.service");
 const { OK, CREATED, SuccessResponse } = require('../core/succes.response');
 class AccessController {
 
+    menu = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get menu success!',
+            metadata: await AccessService.handleGetMenu(req.user.role_user),
+        }).send(res)
+    }
+
     handleRefreshToken = async (req, res, next) => {
         new SuccessResponse({
             message: 'Get tokens success!',

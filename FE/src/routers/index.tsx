@@ -5,7 +5,7 @@ import SingInPage from '@/features/auth/singIn';
 import SingUpPage from '@/features/auth/singUp';
 import AdminLayout from '@/layouts/AdminLayout';
 import NotFound from '@/features/misc/NotFound';
-// import Admin from './features/admin';
+import Admin from '@/features/admin';
 // import Shops from './features/shops';
 // import Users from './features/users';
 
@@ -32,20 +32,20 @@ function RouterComponent() {
     {
       path: "/admin",
       element: <AdminLayout />,
-      // children: [
-      //   {
-      //     index: true,
-      //     element: <Admin />
-      //   },
-      //   {
-      //     path: "users",
-      //     element: <Users />
-      //   },
-      //   {
-      //     path: "shops",
-      //     element: <Shops />
-      //   },
-      // ]
+      children: [
+        {
+          index: true,
+          element: <Admin />
+        },
+        // {
+        //   path: "users",
+        //   element: <Users />
+        // },
+        // {
+        //   path: "shops",
+        //   element: <Shops />
+        // },
+      ]
     },
     {
       path: "*",
