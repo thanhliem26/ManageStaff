@@ -1,9 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './counter/index';
+import userReducer from './user/index';
+import { useDispatch } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    user: userReducer,
   },
 })
 
@@ -11,3 +14,6 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
+
+//dispatch async thunk
+export const useAppDispatch = () => useDispatch<typeof store.dispatch>()

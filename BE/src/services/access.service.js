@@ -1,5 +1,4 @@
 "use strict";
-// const shopModal = require('../models/shop.model');
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const tokenService = require("./token.service");
@@ -14,7 +13,7 @@ import { findById } from "./user.service";
 import db from "../models";
 import { validateUser, createNewUser } from "../models/repository/user.repo";
 import { menu } from "../constants";
-import { getInfoData } from "../utils";
+import { getInfoData, removeElement } from "../utils";
 
 const RoleShop = {
   SHOP: "SHOP",
@@ -24,14 +23,25 @@ const RoleShop = {
 };
 
 class AccessService {
+  static handleGetUserInfo = async (userId) => {
+    const userInfo = await findById(userId);
+
+    return removeElement({
+      object: userInfo,
+      field: ["createdAt", "updatedAt", "password", "createdAt"],
+    });
+  };
+
   static handleGetMenu = async (roleUser) => {
     return menu.reduce((current, next) => {
-      if(next.role.includes(Number(roleUser))) {
-        current.push( getInfoData({field: ["id", "href", "icon", "label"], object: next}))
+      if (next.role.includes(Number(roleUser))) {
+        current.push(
+          getInfoData({ field: ["id", "href", "icon", "label"], object: next })
+        );
       }
 
       return current;
-    }, [])
+    }, []);
   };
 
   static handleRefreshToken = async (refreshToken) => {

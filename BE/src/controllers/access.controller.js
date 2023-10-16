@@ -3,6 +3,12 @@
 const AccessService = require("../services/access.service");
 const { OK, CREATED, SuccessResponse } = require('../core/succes.response');
 class AccessController {
+    userInfo = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get user info success!',
+            metadata: await AccessService.handleGetUserInfo(req.user.user_id),
+        }).send(res)
+    }
 
     menu = async (req, res, next) => {
         new SuccessResponse({
