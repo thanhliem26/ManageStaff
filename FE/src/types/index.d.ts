@@ -1,47 +1,15 @@
-//type user
-
-interface userLogin {
-    id: number,
-    fullName: string,
-    email: string,
-}
-
-interface tokenLogin {
-    accessToken: string,
-    refreshToken: string,
-}
-
-//metadata
-
-interface metadataLogin {
-    user: userLogin,
-    tokens: tokenLogin
-}
-
-interface metadataMenu {
-    id: number,
-    label: string,
-    href: string,
-    icon
-}
-//
-
-//type user main
-interface typeLogin {
+//base instance 
+interface baseInstance {
     message: string,
     status: number,
-    metadata: metadataLogin
+    options?: responseOptionBase,
 }
 
-interface typeMenu {
-    message: string,
-    status: number,
-    metadata: metadataMenu[]
+interface responseOptionBase {
+    limit: number,
 }
-//
 
-
-//type hoc
+//hoc
 interface resize {
     width: number;
     height: number;

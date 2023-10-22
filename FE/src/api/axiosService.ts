@@ -1,7 +1,12 @@
-import axios, {AxiosError, AxiosResponse, InternalAxiosRequestConfig} from "axios";
-import { getToken, getUser, removeToken, removeUser } from "@/utils/index";
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+// import { 
+// 	getToken, 
+// 	getUser, 
+// 	getRefreshToken, setToken, setRefreshToken, setUser, removeUser, removeRefreshToken, removeToken } from "@/utils/index";
+import * as authUtil from '@/utils/index';
 import Notification from "@/components/notificationSend";
-
+import { HEADER } from '@/constants/index';
+import authApi from "./auth";
 // Set up default config for http requests here
 
 const axiosService = axios.create({
@@ -13,15 +18,15 @@ const axiosService = axios.create({
 });
 
 axiosService.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
-	const accessToken = getToken();
-	const user = getUser();
+	const accessToken = authUtil.getToken();
+	const user = authUtil.getUser();
 
 	if (accessToken) {
-		config.headers["Authorization"] = `${accessToken}`;
+		config.headers[HEADER.AUTHORIZATION] = `${accessToken}`;
 	}
 
-	if(user && user?.id) {
-		config.headers["x-client-id"] = `${user?.id}`;
+	if (user && user?.id) {
+		config.headers[HEADER.CLIENT_ID] = `${user?.id}`;
 	}
 
 	return config;
@@ -37,30 +42,41 @@ axiosService.interceptors.response.use(
 		}
 		return response;
 	},
-	(error: AxiosError) => {
-		const errorData = error?.['response']?.['data'];
+	async (error: AxiosError) => {
+		const errorData: any = error?.['response']?.['data'];
 
 		Notification({
 			type: "error",
 			message: "Notification Error",
 			description: errorData?.['message'],
-		  });
+		});
 
 		switch (error?.['response']?.['status']) {
 			case 401:
-				// removeHeader("Authorization");
-				// removeToken()
-				// removeUser()
-				// window.location.href = "/login";
+				if (errorData?.message === 'jwt expired') {
+					const refreshToken = authUtil.getRefreshToken();
+
+					if (refreshToken) {
+						const { metadata } = await authApi.reFreshToken(refreshToken);
+						const { user, tokens } = metadata;
+
+						authUtil.setUser(user)
+						authUtil.setToken(tokens.accessToken)
+						authUtil.setRefreshToken(tokens.refreshToken)
+						setHeader(HEADER.AUTHORIZATION, tokens.accessToken)
+						window.location.reload();
+					}
+				}
 
 				return errorData;
 			case 500:
-				// if (error.response.data.message === 'jwt expired') {
-				// 	removeHeader("Authorization");
-				// 	removeToken()
-				// 	removeUser()
-				// 	window.location.href = "/login";
-				// }
+				if (errorData?.message === 'invalid signature') {
+					removeHeader(HEADER.AUTHORIZATION);
+					authUtil.removeToken()
+					authUtil.removeUser()
+					authUtil.removeRefreshToken();
+					window.location.href = "/login";
+				}
 				return errorData;
 			default:
 				return Promise.reject(error);
@@ -78,6 +94,6 @@ const removeHeader = (name) => {
 
 export {
 	axiosService,
-	setHeader, 
-	removeHeader 
+	setHeader,
+	removeHeader
 };

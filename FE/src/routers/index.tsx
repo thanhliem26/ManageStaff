@@ -37,6 +37,10 @@ function RouterComponent() {
           index: true,
           element: <Admin />
         },
+        {
+          path: "sale-contract-manager",
+          element: <Admin />
+        },
         // {
         //   path: "users",
         //   element: <Users />

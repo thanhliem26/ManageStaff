@@ -18,10 +18,10 @@ export const removeRefreshToken = () => {
 export const getToken = () => localStorage.getItem(STAFF_MANAGE_TOKEN);
 
 export const getRefreshToken = () => {
-    Cookies.get(STAFF_REFRESH_MANAGE_USER)
+    return Cookies.get(STAFF_REFRESH_MANAGE_USER)
 };
 
-export const setUser = (user: userLogin) => localStorage.setItem(STAFF_MANAGE_USER, JSON.stringify(user));
+export const setUser = (user: infoUser) => localStorage.setItem(STAFF_MANAGE_USER, JSON.stringify(user));
 
 export const getUser = () => {
     const isLogin = isUserLoggedIn();

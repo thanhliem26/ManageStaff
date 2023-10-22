@@ -10,9 +10,24 @@ interface UserState {
     sex: string,
     work_id: number | null,
 }
-
-interface metadataUser {
-    message: string,
-    status: number,
+interface metadataUser extends baseInstance{
     metadata: UserState
 }
+interface infoUser {
+    id: number,
+    fullName: string,
+    email: string,
+}
+
+interface formDataSingUp {
+    fullName: string,
+    email: string,
+    password: string,
+    re_password: string,
+}
+
+interface formDataSingIn {
+    email: string,
+    password: string,
+}
+

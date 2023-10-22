@@ -1,6 +1,7 @@
 import { Menu } from "antd";
 import { MenuItem, getItem } from "./constants";
 import authApi from "@/api/auth";
+import userApi from "@/api/user";
 import { useEffect, useState } from "react";
 import { iconMenu } from "@/constants/index";
 import { Skeleton } from "antd";
@@ -19,9 +20,9 @@ const MenuNavbar = () => {
     try {
       setLoading(true);
 
-      const { metadata } = await authApi.menu();
+      const { metadata } = await userApi.getMenu();
 
-      const menu = metadata.map((item: metadataMenu) => {
+      const menu = metadata?.map((item: metadataMenu) => {
         const IconComponent = iconMenu[item.icon];
 
         return getItem(item.label, item.id, <IconComponent />);
@@ -36,7 +37,10 @@ const MenuNavbar = () => {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
     handleGetMenu();
+
+    return () => abortController.abort();
   }, []);
 
   return (

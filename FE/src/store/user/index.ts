@@ -4,7 +4,7 @@ import userApi from '@/api/user';
 
 //redux thunk
 export const fetchUserInfo = createAsyncThunk(
-    'users/fetchByIdStatus',
+    'users/fetchMe',
     async (): Promise<UserState> => {
         const { metadata } = await userApi.getUserInfo();
         return metadata;

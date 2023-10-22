@@ -9,6 +9,10 @@ const userApi = {
     //     const url = '/get-all-user';
     //     return axiosService.get(url)
     // },
+    getMenu(): Promise<typeMenu> {
+        const url = '/v1/api/user/menu';
+        return axiosService.get(url);
+    },
     getUserInfo(): Promise<metadataUser> {
         const url = `/v1/api/user/me`;
         return axiosService.get(url)

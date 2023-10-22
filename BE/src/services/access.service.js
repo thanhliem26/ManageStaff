@@ -46,7 +46,6 @@ class AccessService {
 
   static handleRefreshToken = async (refreshToken) => {
     const foundToken = await tokenService.findByRefreshTokenUsed(refreshToken);
-
     if (foundToken) {
       //decode user nào đang sử dụng lại refresh token
       const { user_id, email } = await verifyJWT(
@@ -55,12 +54,13 @@ class AccessService {
       );
       await tokenService.deleteKeyById(user_id);
 
-      throw new ForbiddenError("Something wrong happend !!! Pls relogin");
+      throw new ForbiddenError("Something wrong happened !!! Pls re-login");
     }
 
     const holderToken = await tokenService.findByRefreshTokenByUser(
       refreshToken
     );
+
     if (!holderToken) throw new AuthFailureError("User not registered");
     const { user_id, email } = await verifyJWT(
       refreshToken,
@@ -83,7 +83,7 @@ class AccessService {
     holderToken.save();
 
     return {
-      user: { user_id, email },
+      user: { id: user_id, email },
       tokens,
     };
   };
