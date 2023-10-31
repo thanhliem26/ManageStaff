@@ -1,7 +1,6 @@
 import React from "react";
 import { Space, Table, Tag } from "antd";
-
-const { Column, ColumnGroup } = Table;
+import { ColumnsType } from "antd/es/table";
 
 interface DataType {
   key: React.Key;
@@ -39,52 +38,69 @@ const data: DataType[] = [
   },
 ];
 
+const columns: ColumnsType<DataType> = [
+  {
+    title: "TYPE CONTRACT",
+    dataIndex: "firstName",
+    key: "firstName",
+    fixed: "left",
+    width: 130,
+  },
+  {
+    title: "NUMBER CONTRACT",
+    dataIndex: "lastName",
+    key: "lastName",
+    fixed: "left",
+    sorter: true,
+    width: 170,
+  },
+  {
+    title: "CUSTOMER NAME",
+    dataIndex: "firstName",
+    key: "firstName",
+    width: 140,
+  },
+  { title: "PACKAGE", dataIndex: "firstName", key: "firstName", width: 100 },
+  { title: "PAID", dataIndex: "age", key: "age", width: 100 },
+  {
+    title: "PRICE CONTRACT",
+    dataIndex: "tags",
+    key: "8",
+    render: (tags: string[]) => (
+      <>
+        {tags.map((tag) => (
+          <Tag color="blue" key={tag}>
+            {tag}
+          </Tag>
+        ))}
+      </>
+    ),
+  },
+  {
+    title: "LINK IMAGE",
+    key: "operation",
+    fixed: "right",
+    render: (_: any, record: DataType) => (
+      <Space size="middle">
+        <a>Invite {record.lastName}</a>
+        <a>Delete</a>
+      </Space>
+    ),
+  },
+];
+
 const TableSaleContractManage: React.FC = () => (
-  <Table dataSource={data}>
-    {/* <ColumnGroup title="Customer Information"> */}
-      <Column title="Type contract" dataIndex="firstName" key="firstName" />
-      <Column title="Number contract" dataIndex="lastName" key="lastName" />
-      <Column title="Customer name" dataIndex="lastName" key="lastName" />
-      <Column title="address" dataIndex="lastName" key="lastName" />
-    {/* </ColumnGroup> */}
-    {/* <ColumnGroup title="Package"> */}
-      <Column title="package" dataIndex="lastName" key="lastName" />
-      <Column title="Package price" dataIndex="lastName" key="lastName" />
-      <Column title="Photo receipt date" dataIndex="lastName" key="lastName" />
-    {/* </ColumnGroup> */}
-    {/* <ColumnGroup title="Pay"> */}
-      <Column title="Paid" dataIndex="age" key="age" />
-      <Column title="Arise" dataIndex="address" key="address" />
-      <Column title="Remaining" dataIndex="lastName" key="lastName" />
-      <Column
-      title="Total value of the contract"
-      dataIndex="tags"
-      key="tags"
-      render={(tags: string[]) => (
-        <>
-          {tags.map((tag) => (
-            <Tag color="blue" key={tag}>
-              {tag}
-            </Tag>
-          ))}
-        </>
-      )}
+  <div className="table__sale-contract">
+    <div className="table__title">
+      <h4>Sale Contract</h4>
+    </div>
+    <Table
+      // size="large"
+      columns={columns}
+      dataSource={data}
+      scroll={{ x: 1000 }}
     />
-    {/* </ColumnGroup> */}
-    {/* <ColumnGroup title="Link image"> */}
-    <Column
-      title="Link image"
-      key="action"
-      render={(_: any, record: DataType) => (
-        <Space size="middle">
-          <a>Invite {record.lastName}</a>
-          <a>Delete</a>
-        </Space>
-      )}
-    />
-    {/* </ColumnGroup> */}
-   
-  </Table>
+  </div>
 );
 
 export default TableSaleContractManage;

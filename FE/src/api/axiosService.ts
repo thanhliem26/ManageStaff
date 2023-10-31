@@ -69,14 +69,25 @@ axiosService.interceptors.response.use(
 				}
 
 				return errorData;
-			case 500:
-				if (errorData?.message === 'invalid signature') {
+			case 404:
+				if (errorData?.message === 'Not Found keyStore') {
 					removeHeader(HEADER.AUTHORIZATION);
 					authUtil.removeToken()
 					authUtil.removeUser()
 					authUtil.removeRefreshToken();
 					window.location.href = "/login";
 				}
+				
+				return errorData;
+			break;
+			case 500:
+				// if (errorData?.message === 'invalid signature') {
+				// 	removeHeader(HEADER.AUTHORIZATION);
+				// 	authUtil.removeToken()
+				// 	authUtil.removeUser()
+				// 	authUtil.removeRefreshToken();
+				// 	window.location.href = "/login";
+				// }
 				return errorData;
 			default:
 				return Promise.reject(error);
